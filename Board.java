@@ -26,6 +26,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 	
 	private int headX = 5, headY = 5, snakeSize = 5;
 	private int ticks = 0;
+	private int limit = 300000;
 	
 	private enum Direction{
 		UP, DOWN, LEFT, RIGHT
@@ -71,7 +72,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 		ticks++;
 		
 		//perpindahan posisi ular mengikuti input 
-		if(ticks > 300000) {
+		if(ticks > limit) {
 			if(snakeDirection == Direction.UP) headY--;
 			if(snakeDirection == Direction.DOWN) headY++;
 			if(snakeDirection == Direction.LEFT) headX--;
@@ -96,9 +97,18 @@ public class Board extends JPanel implements Runnable, KeyListener{
 		
 		for(int i = 0; i < foods.size(); i++) {
 			if(headX == foods.get(i).getX() && headY == foods.get(i).getY()) {
-				snakeSize++;
+				if(Food.getMultiplyBonus() > 4) {
+					System.out.println("wow");
+					snakeSize += 5;
+					score += 5;
+					Food.setMultiplyBonus(0);
+				}else {
+					snakeSize++;
+					score++;
+					Food.setMultiplyBonus(Food.getMultiplyBonus() + 1);
+				}
+				
 				foods.remove(i);
-				score++;
 			}
 		}
 		
@@ -107,20 +117,25 @@ public class Board extends JPanel implements Runnable, KeyListener{
 				stop();
 			}
 		}
+		
+		if(headX < 0) {
+			headX = 51;
+		}
+		if(headX > 51) {
+			headX = 0;
+		}
+		if(headY < 0) {
+			headY = 51;
+		}
+		if(headY > 51) {
+			headY = 0;
+		}
 	}
 	
 	public void paint(Graphics g) {
 		g.clearRect(0, 0, WIDTH, HEIGHT);
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
-		
-		for(int i = 0; i < WIDTH / 10; i++) {
-			g.drawLine(i * 10, 0, i * 10, HEIGHT);
-		}
-		
-		for(int i = 0; i < HEIGHT / 10; i++) {
-			g.drawLine(0,  i * 10, HEIGHT, i * 10);
-		}
 		
 		for(int i = 0; i < snake.size(); i++) {
 			snake.get(i).draw(g);
@@ -166,8 +181,13 @@ public class Board extends JPanel implements Runnable, KeyListener{
 			down = false;
 		}
 		if(key == KeyEvent.VK_ESCAPE) {
-			stop();
 			System.exit(0);
+		}
+		if(e.getKeyChar() == '=') {
+			limit -= 50000;
+		}
+		if(e.getKeyChar() == '-') {
+			limit += 50000;
 		}
 	}
 	

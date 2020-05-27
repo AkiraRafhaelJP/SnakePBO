@@ -1,8 +1,9 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Food {
+public class Food implements BoardObject{
 	private int x, y, width, height;
+	private static int multiplyBonus = 0;
 	
 	public Food(int x, int y, int tileSize) {
 		this.x = x;
@@ -13,7 +14,11 @@ public class Food {
 	
 	public void draw(Graphics g) {
 		g.setColor(Color.RED);
-		g.fillRect(x * width, y * height, width, height);
+		if(multiplyBonus > 4) {
+			g.fillOval(x * width, y * height, width * 2, height * 2);
+		}else{
+			g.fillOval(x * width, y * height, width, height);
+		}
 	}
 
 	public int getX() {
@@ -23,7 +28,7 @@ public class Food {
 	public void setX(int x) {
 		this.x = x;
 	}
-
+	
 	public int getY() {
 		return y;
 	}
@@ -31,4 +36,13 @@ public class Food {
 	public void setY(int y) {
 		this.y = y;
 	}
+	
+	public static int getMultiplyBonus() {
+		return multiplyBonus;
+	}
+	
+	public static void setMultiplyBonus(int newMulti) {
+		multiplyBonus = newMulti;
+	}
+
 }
