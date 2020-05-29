@@ -1,7 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Snake{
+public class Snake implements BoardObject{
 	private int x, y, width, height;
 	
 	public Snake(int x, int y, int tileSize) {
@@ -12,7 +12,7 @@ public class Snake{
 	}
 	
 	public void draw(Graphics g) {
-		g.setColor(Color.YELLOW);
+		g.setColor(Color.BLACK);
 		g.fillRect(x * width, y * height, width, height);
 	}
 

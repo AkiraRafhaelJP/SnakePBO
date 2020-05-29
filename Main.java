@@ -1,13 +1,13 @@
-import java.awt.Color;
-import java.awt.event.*;
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class Main {
 	public Main() {
 		JFrame frame = new JFrame("SnakePBO");
 		Board board = new Board();
+		Menu menu = new Menu();
 		
 		frame.add(board);
+		frame.setJMenuBar(menu);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.pack();

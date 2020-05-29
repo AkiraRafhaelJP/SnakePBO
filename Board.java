@@ -1,4 +1,3 @@
-import java.awt.Container;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -19,10 +18,11 @@ public class Board extends JPanel implements Runnable, KeyListener{
 	private ArrayList<Snake> snake;
 	
 	private Food food;
+	private Food[] bigFood;
 	private ArrayList<Food> foods;
 	
 	private Random randomPos;
-	private int score;
+	private Score score;
 	
 	private int headX = 5, headY = 5, snakeSize = 5;
 	private int ticks = 0;
@@ -42,6 +42,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 		snake = new ArrayList<Snake>();
 		foods = new ArrayList<Food>();
 		randomPos = new Random();
+		score = new Score();
 		start();
 	}
 	
@@ -54,7 +55,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 	
 	public void stop() {
 		isRunning = false;
-		System.out.println("Score : " + score);
+		System.out.println("Score : " + score.getScore());
 		try {
 			thread.join();
 		} catch (Exception e) {
@@ -91,24 +92,32 @@ public class Board extends JPanel implements Runnable, KeyListener{
 			int newX = randomPos.nextInt(51);
 			int newY = randomPos.nextInt(51);
 			
-			food = new Food(newX, newY, 10);
-			foods.add(food);
+			if(Food.getMultiplyBonus() > 4) {
+				bigFood = new Food[4];
+				bigFood[0] = new Food(newX, newY, 10);
+				bigFood[1] = new Food(newX + 1, newY, 10);
+				bigFood[2] = new Food(newX, newY + 1, 10);
+				bigFood[3] = new Food(newX + 1, newY + 1, 10);
+				for(int i = 0; i < 4; i++) foods.add(bigFood[i]);
+			}
+			else {
+				food = new Food(newX, newY, 10);
+				foods.add(food);
+			}
 		}
 		
 		for(int i = 0; i < foods.size(); i++) {
 			if(headX == foods.get(i).getX() && headY == foods.get(i).getY()) {
 				if(Food.getMultiplyBonus() > 4) {
-					System.out.println("wow");
 					snakeSize += 5;
-					score += 5;
+					score.setScore(score.getScore() + 5);
 					Food.setMultiplyBonus(0);
 				}else {
 					snakeSize++;
-					score++;
+					score.setScore(score.getScore() + 1);
 					Food.setMultiplyBonus(Food.getMultiplyBonus() + 1);
 				}
-				
-				foods.remove(i);
+				foods.clear();
 			}
 		}
 		
@@ -132,21 +141,20 @@ public class Board extends JPanel implements Runnable, KeyListener{
 		}
 	}
 	
-	public void paint(Graphics g) {
+	public void paint(Graphics g){
 		g.clearRect(0, 0, WIDTH, HEIGHT);
-		g.setColor(Color.BLACK);
+		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		for(int i = 0; i < snake.size(); i++) {
 			snake.get(i).draw(g);
 		}
 		
-		for(int i = 0; i < foods.size(); i++) {
-			foods.get(i).draw(g);
-		}
+		if(foods.size() > 0)
+			foods.get(0).draw(g);
 	}
 
-	public void run() {
+	public void run(){
 		while(isRunning) {
 			tick();
 			repaint();
