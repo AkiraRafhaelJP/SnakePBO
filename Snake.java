@@ -12,7 +12,7 @@ public class Snake implements BoardObject{
 	}
 	
 	public void draw(Graphics g) {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.YELLOW);
 		g.fillRect(x * width, y * height, width, height);
 	}
 

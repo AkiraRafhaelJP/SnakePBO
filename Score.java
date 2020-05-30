@@ -7,6 +7,14 @@ public class Score extends JPanel{
 		score = 0;
 	}
 	
+	public Score(Score initScore) {
+		score = initScore.getScore();
+	}
+	
+	public Score(int initScore) {
+		score = initScore;
+	}
+	
 	int getScore() {
 		return score;
 	}

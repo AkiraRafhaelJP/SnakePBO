@@ -47,7 +47,6 @@ public class Board extends JPanel implements Runnable, KeyListener{
 	}
 	
 	public void start() {
-		//score.setScore(0);
 		isRunning = true;
 		thread = new Thread(this);
 		thread.start();
@@ -57,11 +56,11 @@ public class Board extends JPanel implements Runnable, KeyListener{
 		isRunning = false;
 		System.out.println("Score : " + score.getScore());
 		try {
-			thread.join();
+			Thread.sleep(1000);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		new ScoreBoard(score);
 	}
 	
 	public void tick() {
@@ -71,8 +70,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 		}
 		
 		ticks++;
-		
-		//perpindahan posisi ular mengikuti input 
+	
 		if(ticks > limit) {
 			if(snakeDirection == Direction.UP) headY--;
 			if(snakeDirection == Direction.DOWN) headY++;
@@ -143,7 +141,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 	
 	public void paint(Graphics g){
 		g.clearRect(0, 0, WIDTH, HEIGHT);
-		g.setColor(Color.WHITE);
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		for(int i = 0; i < snake.size(); i++) {
@@ -160,7 +158,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 			repaint();
 		}
 	}
-
+	
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode();
