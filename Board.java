@@ -54,7 +54,6 @@ public class Board extends JPanel implements Runnable, KeyListener{
 	
 	public void stop() {
 		isRunning = false;
-		System.out.println("Score : " + score.getScore());
 		try {
 			Thread.sleep(1000);
 		} catch (Exception e) {
