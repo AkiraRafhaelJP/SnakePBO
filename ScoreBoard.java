@@ -19,7 +19,6 @@ public class ScoreBoard extends JFrame{
 	private Score currentScore;
 	
 	private ArrayList<Score> scores;
-	private Score score;
 	
 	private JLabel label;
 	private JLabel label2;
@@ -51,8 +50,7 @@ public class ScoreBoard extends JFrame{
 		File fileScore = new File("High Score.txt");
 		Scanner scan = new Scanner(fileScore);
 		while(scan.hasNextInt()) {
-			score = new Score(scan.nextInt());
-			scores.add(score);
+			scores.add(new Score(scan.nextInt()));
 		}
 		scan.close();
 		insertNewScore();
