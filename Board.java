@@ -14,10 +14,8 @@ public class Board extends JPanel implements Runnable, KeyListener{
 	private Thread thread;
 	private boolean isRunning;
 	
-	private Snake s;
 	private ArrayList<Snake> snake;
 	
-	private Food food;
 	private Food[] bigFood;
 	private ArrayList<Food> foods;
 	
@@ -64,8 +62,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 	
 	public void tick() {
 		if(snake.size() == 0) {
-			s = new Snake(headX, headY, 10);
-			snake.add(s);
+			snake.add(new Snake(headX, headY, 10));
 		}
 		
 		ticks++;
@@ -77,8 +74,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 			if(snakeDirection == Direction.RIGHT) headX++;
 			
 			ticks = 0;
-			s = new Snake(headX, headY, 10);
-			snake.add(s);
+			snake.add(new Snake(headX, headY, 10));
 			
 			if(snake.size() > snakeSize) {
 				snake.remove(0);
@@ -98,8 +94,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 				for(int i = 0; i < 4; i++) foods.add(bigFood[i]);
 			}
 			else {
-				food = new Food(newX, newY, 10);
-				foods.add(food);
+				foods.add(new Food(newX, newY, 10));
 			}
 		}
 		
