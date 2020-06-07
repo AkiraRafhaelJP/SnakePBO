@@ -1,6 +1,5 @@
-import javax.swing.JPanel;
 
-public class Score extends JPanel{
+public class Score{
 	private static final long serialVersionUID = 1L;
 	private int score;
 	public Score() {
