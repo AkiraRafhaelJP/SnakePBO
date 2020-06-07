@@ -185,6 +185,7 @@ public class Board extends JPanel implements Runnable, KeyListener{
 		}
 		if(e.getKeyChar() == '=') {
 			limit -= 50000;
+			if(limit == 0) limit = 50000;
 		}
 		if(e.getKeyChar() == '-') {
 			limit += 50000;
